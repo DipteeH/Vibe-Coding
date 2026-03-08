@@ -28,6 +28,54 @@ Production-ready full-stack enterprise vehicle configurator built with Next.js 1
 
 ![Enterprise Car Configuration Platform login page](assets/screenshots/login.png)
 
+## Demo
+
+### Suggested walkthrough
+
+1. Open the configurator and select a vehicle such as `Atlas SUV`
+2. Move through powertrain, trim, color, interior, wheel, and package decisions
+3. Review live pricing, compliance, and manufacturing feedback
+4. Click **Save Quote** while signed out and confirm redirect to `/login`
+5. Sign in with email/password, Google OAuth, or phone login to resume the save flow
+6. Open `/saved-configurations` to update or delete your saved items
+7. Open `/admin` with an allowlisted account to review users and cross-user saved configurations
+
+### Run the demo locally
+
+```bash
+cd ecp-platform
+npm install
+cp .env.example .env
+npm run db:push
+npm run dev
+```
+
+Then visit `http://127.0.0.1:3000`.
+
+## Feature table
+
+| Area | Included capabilities |
+| --- | --- |
+| Configurator | Multi-step vehicle configuration, dealer/market-aware rules, pricing, incentives, and feasibility checks |
+| Authentication | Email/password, Google OAuth, phone verification login, session cookies, and return-to redirects |
+| Saved configurations | Auth-required save flow, draft preservation, user-owned list/detail/edit/delete flows |
+| Authorization | User/admin role separation with protected `/saved-configurations` and `/admin` routes |
+| Notifications | Save/update confirmation emails via SMTP or safe local JSON transport fallback |
+| Quality | Vitest unit/integration/UI coverage plus Playwright smoke testing |
+
+## Architecture diagram
+
+```mermaid
+flowchart LR
+    A[Browser UI\nConfigurator + Login + Admin] --> B[Next.js App Router\nPages + Route Handlers]
+    B --> C[Application Services\nPlatform orchestration]
+    C --> D[Domain Layer\nCatalog + Rules + Pricing]
+    C --> E[Infrastructure Layer\nRepositories + Auth + Notifications]
+    E --> F[(Prisma + SQLite)]
+    E --> G[(JSON fallback\nSaved quotes only)]
+    E --> H[External providers\nGoogle OAuth / SMTP / SMS webhook]
+```
+
 ## Core capabilities
 
 - Multi-step configurator for model, engine, transmission, trim, exterior, interior, wheels, packages, and review/save
@@ -97,6 +145,33 @@ Use the following commands from `ecp-platform/` for a full local verification pa
 - `npm run lint`
 - `npm run build`
 - `npm run test:e2e`
+
+## Deployment
+
+### Recommended approach
+
+This repository is optimized for local development out of the box with Prisma + SQLite. For a durable hosted deployment, use one of these approaches:
+
+- deploy to a container or VM-based platform with persistent disk support for SQLite
+- or adapt the Prisma datasource to a managed production database before deploying to a fully serverless platform
+
+### Minimum deployment checklist
+
+1. Install dependencies in `ecp-platform/`
+2. Set production environment variables:
+   - `DATABASE_URL`
+   - `AUTH_BASE_URL`
+   - `AUTH_ADMIN_EMAILS` and/or `AUTH_ADMIN_PHONES`
+   - optional `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`
+   - optional `EMAIL_FROM`, `EMAIL_SERVER_HOST`, `EMAIL_SERVER_PORT`, `EMAIL_SERVER_USER`, `EMAIL_SERVER_PASSWORD`
+   - optional `PHONE_AUTH_WEBHOOK_URL`, `PHONE_AUTH_WEBHOOK_TOKEN`
+3. Run `npm run db:push` against the target database
+4. Build with `npm run build`
+5. Start with `npm run start`
+
+### Important deployment note
+
+If you keep SQLite for deployment, make sure the runtime filesystem is persistent. Ephemeral filesystems can break auth/session persistence and saved-configuration durability.
 
 ## Important local environment note
 
