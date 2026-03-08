@@ -30,6 +30,12 @@ Production-ready full-stack enterprise vehicle configurator built with Next.js 1
 
 ## Demo
 
+### Live demo
+
+![Enterprise Car Configuration Platform live demo](assets/demo/ecp-demo.gif)
+
+Prefer the recorded video? Open [`assets/demo/ecp-demo.webm`](assets/demo/ecp-demo.webm).
+
 ### Suggested walkthrough
 
 1. Open the configurator and select a vehicle such as `Atlas SUV`
