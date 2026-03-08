@@ -1,14 +1,32 @@
 # Enterprise Car Configuration Platform (ECP)
 
-Production-ready showcase implementation of an enterprise vehicle configuration platform created for an AI Skill Building / Vibe Coding exercise.
+Production-ready full-stack enterprise vehicle configurator built with Next.js 16, React 19, TypeScript, Prisma, and Playwright. The platform demonstrates rules-driven product configuration, authentication and role-based access control, saved-configuration management, admin oversight, and polished end-user UX in a single portfolio-ready repository.
 
-## What this repository contains
+![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)
+![React 19](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-2d3748?logo=prisma&logoColor=white)
+![Playwright](https://img.shields.io/badge/Tested_with-Playwright-45ba63?logo=playwright&logoColor=white)
 
-- A complete full-stack ECP application in `ecp-platform/`
-- Local persistence using Prisma + SQLite, with JSON-file fallback
+## Why this repo stands out
+
+- Complete full-stack ECP application in `ecp-platform/`
 - Rules-driven vehicle configuration, pricing, compliance, and manufacturing validation
-- Unit, integration, UI, and browser automation test coverage
-- Repository-level delivery documents and AI prompt archive
+- Authentication with email/password, Google OAuth, and phone login flows
+- User-owned saved configurations plus admin-only oversight tools
+- Prisma + SQLite persistence with JSON fallback for quote storage resilience
+- Unit, integration, UI, and browser automation coverage
+- Repository-level delivery docs, setup guides, and prompt archive
+
+## Screenshots
+
+### Premium configurator landing experience
+
+![Enterprise Car Configuration Platform landing page](assets/screenshots/home.png)
+
+### Dedicated authentication flow with return-to support
+
+![Enterprise Car Configuration Platform login page](assets/screenshots/login.png)
 
 ## Core capabilities
 
