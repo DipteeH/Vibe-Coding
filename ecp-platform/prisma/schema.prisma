@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum QuotePathType {
+  QUOTE
+  ORDER
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum AuthProvider {
+  EMAIL
+  GOOGLE
+  PHONE
+}
+
+model User {
+  id              String        @id @default(cuid())
+  name            String
+  email           String?       @unique
+  phoneNumber     String?       @unique
+  passwordHash    String?
+  role            UserRole      @default(USER)
+  emailVerifiedAt DateTime?
+  phoneVerifiedAt DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  accounts        AuthAccount[]
+  sessions        UserSession[]
+  savedQuotes     SavedQuote[]
+}
+
+model AuthAccount {
+  id                String       @id @default(cuid())
+  userId            String
+  provider          AuthProvider
+  providerAccountId String
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model UserSession {
+  id        String   @id @default(cuid())
+  userId     String
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model PhoneVerification {
+  id         String   @id @default(cuid())
+  phoneNumber String
+  codeHash   String
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime @default(now())
+
+  @@index([phoneNumber, createdAt(sort: Desc)])
+}
+
+model SavedQuote {
+  id                 String        @id @default(cuid())
+  ownerId            String?
+  customerName       String
+  notificationEmail  String
+  marketCode         String
+  dealerCode         String
+  modelCode          String
+  pathType           QuotePathType
+  currency           String
+  totalPriceCents    Int
+  complianceStatus   String
+  manufacturingState String
+  configurationJson  String
+  evaluationJson     String
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  owner              User?         @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt(sort: Desc)])
+  @@index([marketCode, dealerCode])
+  @@index([ownerId, updatedAt(sort: Desc)])
+}

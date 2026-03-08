@@ -1,0 +1,43 @@
+# Repository-wide ignore rules for the ECP delivery
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# App dependencies and builds
+/ecp-platform/node_modules/
+/ecp-platform/.next/
+/ecp-platform/out/
+/ecp-platform/build/
+/ecp-platform/coverage/
+/ecp-platform/test-results/
+/ecp-platform/playwright-report/
+
+# Local persistence artifacts
+/ecp-platform/prisma/dev.db
+/ecp-platform/prisma/dev.db-journal
+/ecp-platform/data/saved-quotes.json
+
+# Environment and logs
+/ecp-platform/.env
+/ecp-platform/.env.local
+/ecp-platform/.env.development.local
+/ecp-platform/.env.test.local
+/ecp-platform/.env.production.local
+/ecp-platform/npm-debug.log*
+/ecp-platform/yarn-debug.log*
+/ecp-platform/yarn-error.log*
+/ecp-platform/.pnpm-debug.log*
+
+# Tooling
+/ecp-platform/.vercel/
+/ecp-platform/*.tsbuildinfo
+
+# Root-level local artifacts
+/tests/*.mp4
+/tests/*.webm
+/tests/*.png
+/test-results/
+/playwright-report/
